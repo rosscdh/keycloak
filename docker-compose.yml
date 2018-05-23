@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      KEYCLOAK_USER: user
+      KEYCLOAK_PASSWORD: password
+      DB_VENDOR: POSTGRES
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+    links:
+      - postgres
+
+  postgres:
+    image: postgres:9.6.5-alpine
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    volumes:
+      - $PWD/data/postgres:/var/lib/postgresql/data
